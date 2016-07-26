@@ -2,7 +2,8 @@
     "extends": "airbnb",
     "installedESLint": true,
     "plugins": [
-        "react"
+        "react",
+        "eslint-plugin-react"
     ],
     "ecmaFeatures": {
       "jsx": true
