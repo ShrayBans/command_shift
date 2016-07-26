@@ -167,7 +167,11 @@ class App extends Component {
   }
 
   select(event) {
-    this.state.onduty.push(event.target.value);
+  console.log(event.target.value);
+    var passedNurse = (event.target.value);
+    passedNurse = (event.target.value).split(',');
+    if (passedNurse.length > 1) this.state.onduty = passedNurse;
+    else this.state.onduty.push(event.target.value);
     this.setState(this.state);
   }
 

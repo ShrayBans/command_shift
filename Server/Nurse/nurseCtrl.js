@@ -1,5 +1,7 @@
 const exportObj = require('./nurseMdl');
+
 const Nurses = exportObj.nurse; 
+
 
 function index(req, res) {
 console.log('inside nurseController************'); 
@@ -51,11 +53,11 @@ function sendAssignment(req, res) {
 
   onDuty.forEach((nurse, i) => {
     const name = nurse.split(' ');
-    Nurses.update({ first: name[0], last: name[1] },
-      { $set: { beds: [] } }, (err, result) => result);
 
-    Nurses.update({ first: name[0], last: name[1] },
-      { $addToSet: { beds: { $each: shifts[i] } } },
+    Nurses.update({ first: name[0], last: name[1] },  { $set: { beds: null } },
+      (err, result) => result);
+
+    Nurses.update({ first: name[0], last: name[1] }, { $set: { beds: shifts[i] } },
       (err, result) => result);
   });
   res.send(response);

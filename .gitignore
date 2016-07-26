@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 Build/Admin.bundle.js
 Build/Nurse.bundle.js
+Build/main.bundle.js
+package.json

@@ -140,6 +140,18 @@ input#main{
   1px 1px 0 #28a4f4;
 }
 
+.selectall {
+  font-size: 32px;
+  margin-left: 10px;
+  -webkit-text-stroke: 1px 28a4f4;
+  text-shadow:
+  1px 1px 0 #FF0000,
+  -1px -1px 0 #FF0000,
+  1px -1px 0 #FF0000,
+  -1px 1px 0 #FF0000,
+  1px 1px 0 #FF0000;
+}
+
 .container-left {
   width: 50%;
   display: inline-block;
