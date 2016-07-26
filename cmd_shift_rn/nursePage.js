@@ -3,48 +3,67 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	TouchableHighlight
+	TouchableHighlight,
+	Image
 } from 'react-native';
 
 class NursePage extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			nurseData : {}
+			nurseData : []
 		};
 		this.fetchNurses = this.fetchNurses.bind(this);
 	}
 
 	componentDidMount(){
-		// this.setState({nurseData: this.fetchNurses()});
+		console.log('SUPPPP')
+		this.fetchNurses();
 	}
 
 	fetchNurses(){
 		var names = this.props.nurseName.split(' ');
 		var nurseFirst = names[0];
 		var nurseLast = names[1];
-		fetch('http://localhost:3000/nurses').then(function(err, data){
-				data.filter(function(nurse){
-					return nurse.first === nurseFirst && nurse.last === nurseLast;
+		//if nurse.beds === null || undefined, navigate back 
+
+		fetch('http://localhost:3000/nurses').then((response)=> response.json()).then((dataJson) => {
+				var nurseData = dataJson.filter(function(nurse){
+
+					return nurse.first.toUpperCase() === nurseFirst.toUpperCase() && nurse.last.toUpperCase() === nurseLast.toUpperCase();
 				});
-				console.log(data)
-				this.setState({nurseData:data})
+				this.setState({nurseData:nurseData[0].beds})
 		});
 	}
 
+	navigateBack(){
+		this.props.navigator.pop();
+	}
+
 	render(){
+		var bedData = this.state.nurseData.map((item, i) =>{
+			return <Text key={i}>{item}</Text>
+		});
 		return (
 			<View style={styles.container}>
-				<Text style={styles.welcome}>
-					Welcome {this.props.nurseName}!
-				</Text>
-				<Text style={styles.instructions}>
-					To get started, edit index.ios.js
-				</Text>
-				<Text style={styles.instructions}>
-					Press Cmd+R to reload,{'\n'}
-					Cmd+D or shake for dev menu
-				</Text>
+				<View style ={styles.viewPlaceholder}>
+					<TouchableHighlight onPress={this.navigateBack.bind(this)} style={styles.backButton}>
+					<Image source={require('./Images/backButton.png')} style={styles.backImage}></Image>
+					</TouchableHighlight>
+				</View>
+				<View style ={styles.viewBottom}>
+
+					<Text style={styles.welcome}>
+						Welcome {this.props.nurseName}!
+					</Text>
+					<Text style={styles.displayNames}>
+						Your beds are: 
+					</Text>
+				</View>
+				<View style ={styles.bedsView}>
+						{bedData}
+				</View>
+
 			</View>
 		)
 	}
@@ -54,11 +73,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center',
 		backgroundColor: '#F5FCFF',
 	},
 	welcome: {
-		fontSize: 20,
+		fontSize: 30,
 		textAlign: 'center',
 		margin: 10,
 	},
@@ -67,6 +85,28 @@ const styles = StyleSheet.create({
 		color: '#333333',
 		marginBottom: 5,
 	},
+	displayNames: {
+		fontSize: 20
+	},
+	viewPlaceholder: {
+		flex: 1,
+		alignItems: 'flex-start',
+	},
+	viewBottom: {
+		flex: 1,
+		alignItems: 'center',
+	},
+	bedsView: {
+		flex: 4,
+	},
+	backImage: {
+		height: 25,
+		width: 25
+	},
+	backButton: {
+		marginTop: 20,
+		marginLeft: 10
+	}
 });
 
 module.exports = NursePage;

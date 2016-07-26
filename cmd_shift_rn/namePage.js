@@ -17,7 +17,6 @@ class NamePage extends Component {
 	}
 
 	onButtonPress(){
-		console.log('FML')
 		this.props.navigator.push({
 			id: 'NursePage',
 			passProps: {
@@ -28,10 +27,15 @@ class NamePage extends Component {
 
 	render() {
 		return (
-			<ResponsiveImage source={require('./doctor_bg.jpg')} style={styles.container} initWidth='420'>
+			<ResponsiveImage source={require('./Images/doctor_bg.jpg')} style={styles.container} initWidth='420'>
+				<View style={styles.placeholder}>
+					<Text style={styles.logo}>cmd_shift</Text>
+				</View>
 				<Text style={styles.welcome}>
 						Nurse of Ivy Creek Medical Center! {'\n'} Please enter your Name! 
 				</Text>
+				<View style={styles.placeholder}></View>
+
 				<TextInput 
 					style={styles.textBox} 
 					onChangeText= {(text) => this.setState({text})}
@@ -40,14 +44,16 @@ class NamePage extends Component {
 				<View style={{flex: 1}}>
 					<TouchableHighlight 
 						onPress={this.onButtonPress.bind(this)}
-						style={styles.instructions}>
+						style={styles.submitButton}>
 							<Text
-								style={styles.buttonText}>Pick me like a booger
+								style={styles.buttonText}>Enter
 							</Text>
 					</TouchableHighlight>
 				</View>
 				<View style={{flex: 3}}>
 				</View>
+				<View style={styles.placeholder}></View>
+
 			</ResponsiveImage>
 		);
 	}
@@ -59,6 +65,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
+	logo: {
+		marginTop: 70,
+		fontSize: 48,
+		textShadowColor: '#28a4f4',
+		textShadowOffset: {width: 3, height: 3},
+		textShadowRadius: 2,
+		fontFamily: 'Cochin'
+	},
 	welcome: {
 		flex: 1,
 		marginTop: 100,
@@ -68,32 +82,39 @@ const styles = StyleSheet.create({
 		margin: 10,
 		color: '#00d6f7',
 		fontWeight: '700',
-		backgroundColor: 'rgba(0,0,0,0)'
+		backgroundColor: 'rgba(0,0,0,0)',
+		fontFamily: 'Helvetica'
 	},
-	instructions: {
+	submitButton: {
 		flex: 1,
 		justifyContent: 'flex-start',
-		marginTop: 30,
-		height: 40,
-		width: 80,
-		backgroundColor: '#2139ef',
-		borderRadius: 100,
-		justifyContent: 'center'
+		marginTop: 50,
+		height: 70,
+		width: 150,
+		backgroundColor: '#6072f7',
+		borderRadius: 15,
+		justifyContent: 'center',
+		borderWidth: 2,
+		borderColor: '#2139ef'
 	},
 	buttonText: {
 		textAlign: 'center',
 		backgroundColor: 'rgba(0,0,0,0)',
 		color: '#bac1ef',
-		fontWeight: '700'
+		fontWeight: '700',
+		fontFamily: 'Cochin',
+		fontSize: 25
 	},
 	textBox: {
 		backgroundColor: '#b7e3f4',
 		height: 50,
 		width: 414,
-		fontSize: 20,
 		borderRadius: 10,
 		alignItems: 'center',
 		textAlign: 'center'
+	},
+	placeholder: {
+		flex: 1
 	}
 });
 
