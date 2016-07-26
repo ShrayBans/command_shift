@@ -35,7 +35,7 @@ class App extends Component {
       '45A', '45B', '47A', '47B', '46A', '46B', '44A', '44B', '44C', '48A', '48B'],
       onduty: [],
       occupied: [],
-      emptyBeds: [],
+      emptyBeds: [2,4,6],
       assignment: [],
       nurses: {},
       glossaryVisible: false,

@@ -4,11 +4,12 @@ export default class Display extends Component {
 // props emptyBeds, occupied
   render() {
     const census = this.props.occupied.length;
+    const emptyBeds = this.props.emptyBeds; 
     return (
       <div className="container">
           <div className="container-left">
             <div className="header">Today's empty beds:</div>
-              {this.props.emptyBeds.map((el, i) => {
+              {emptyBeds.map((el, i) => {
                 return (
                   <span className="room" key={i}>{el}</span>
                 );
@@ -21,3 +22,5 @@ export default class Display extends Component {
     );
   }
 }
+
+

@@ -1,9 +1,18 @@
-const Nurses = require('./nurseMdl');
+const exportObj = require('./nurseMdl');
+const Nurses = exportObj.nurse; 
 
 function index(req, res) {
+console.log('inside nurseController************'); 
   Nurses.find({ }, (err, nurses) => {
-    if (!nurses) res.sendStatus(404);
-    else res.json(nurses);
+    console.log('inside index'); 
+    if (!nurses) {
+
+      res.sendStatus(404);
+    }
+    else {
+       console.log('nurses', nurses); 
+      res.json(nurses);
+    }
   });
 }
 
@@ -17,12 +26,14 @@ function show(req, res) {
 // create new nurse doc in Nurses collection -- HIRED! :D
 function add(req, res) {
   Nurses.create({ first: req.body.first, last: req.body.last }, () => {
+    console.log('RES.BODY', req.body)
     res.send('posted');
   });
 }
 
 // remove nurse doc from Nurses collection -- FIRED :(
 function remove(req, res) {
+  console.log('removing nurse**'); 
   Nurses.remove({ first: req.body.first, last: req.body.last }, () => {
     res.send('deleted');
   });
