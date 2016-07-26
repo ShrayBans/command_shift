@@ -10,6 +10,7 @@ import {
 
 import NursePage from './nursePage.js'
 import NamePage from './namePage.js'
+import NotesPage from './notesPage.js'
 
 class cmd_shift_rn extends Component {
 	render(){
@@ -32,6 +33,8 @@ class cmd_shift_rn extends Component {
 				return(<NamePage navigator={navigator} {...route.passProps} title="NamePage"/>);
 			case 'NursePage':
 				return(<NursePage navigator={navigator} {...route.passProps} title="NursePage"/>)
+			case 'NotesPage':
+				return(<NotesPage navigator={navigator} {...route.passProps} title="NotesPage"/>)
 		}
 	}
 }

@@ -46,7 +46,7 @@ class NamePage extends Component {
 						onPress={this.onButtonPress.bind(this)}
 						style={styles.submitButton}>
 							<Text
-								style={styles.buttonText}>Enter
+								style={styles.buttonText}>Find Beds
 							</Text>
 					</TouchableHighlight>
 				</View>

@@ -11,13 +11,12 @@ class NursePage extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			nurseData : []
+			nurseData : {}
 		};
 		this.fetchNurses = this.fetchNurses.bind(this);
 	}
 
 	componentDidMount(){
-		console.log('SUPPPP')
 		this.fetchNurses();
 	}
 
@@ -32,7 +31,13 @@ class NursePage extends Component {
 
 					return nurse.first.toUpperCase() === nurseFirst.toUpperCase() && nurse.last.toUpperCase() === nurseLast.toUpperCase();
 				});
-				this.setState({nurseData:nurseData[0].beds})
+				if(nurseData[0].beds) {
+					var nurseObj = {};
+					for(var prop of nurseData[0].beds){
+						nurseObj[prop] = ''
+					}
+					this.setState({nurseData: nurseObj});
+				}
 		});
 	}
 
@@ -40,9 +45,29 @@ class NursePage extends Component {
 		this.props.navigator.pop();
 	}
 
+	navigateNotes(bedNum){
+		// console.log(event)
+		this.props.navigator.push({
+			id: 'NotesPage',
+			passProps: {
+				notes: this.state[bedNum]
+			}
+		})
+	}
+
 	render(){
-		var bedData = this.state.nurseData.map((item, i) =>{
-			return <Text key={i}>{item}</Text>
+		var names = this.props.nurseName.split(' ');
+		var nurseFirst = names[0];
+		var nurseLast = names[1];
+		nurseFirst[0] = nurseFirst.toUpperCase();
+		nurseLast[0] = nurseLast.toUpperCase();
+
+		var nurseArr = Object.keys(this.state.nurseData)
+		var bedData = nurseArr.map((item, i) =>{
+			return <TouchableHighlight key={item} onPress={() => this.navigateNotes(item)}><Text>
+			{item}
+				</Text>
+			</TouchableHighlight>
 		});
 		return (
 			<View style={styles.container}>
@@ -54,7 +79,7 @@ class NursePage extends Component {
 				<View style ={styles.viewBottom}>
 
 					<Text style={styles.welcome}>
-						Welcome {this.props.nurseName}!
+						Welcome {nurseFirst} {nurseLast}!
 					</Text>
 					<Text style={styles.displayNames}>
 						Your beds are: 
@@ -97,6 +122,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	bedsView: {
+		alignItems: 'center',
 		flex: 4,
 	},
 	backImage: {
