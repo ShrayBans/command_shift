@@ -14,7 +14,6 @@ class NotesPage extends Component {
 		this.state = {
 			text: ''
 		};
-
 	}
 
 	navigateBack(){

@@ -13,6 +13,7 @@ class NamePage extends Component {
 		super(props);
 		this.state = {
 			text: '',
+			test: '',
 			nurseData: {}
 		};
 		this.fetchNurses = this.fetchNurses.bind(this)
@@ -27,12 +28,11 @@ class NamePage extends Component {
 
 	updateNote(bedNum, note){
 		var state = this.state;
-		state.nurseData[bedNum][note] = note;
+		state.nurseData[bedNum].note = note;
 		this.setState(state);
 	}
 
 	updateColor(bedNum){
-		
 		var state = this.state
 		state.nurseData[bedNum].bgColor = '#4cc45c';
 		this.setState(state)
@@ -41,10 +41,8 @@ class NamePage extends Component {
 		setTimeout(() => {
 		state.nurseData[bedNum].bgColor = '#d11010';
 		this.setState(state)
-		console.log('PLEASE CHANGE')
 		console.log(state)
-		}, 5000);
-
+		}, 60000);
 	}
 
 	fetchNurses(){
