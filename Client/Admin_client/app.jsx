@@ -39,6 +39,7 @@ class App extends Component {
       assignment: [],
       nurses: {},
       glossaryVisible: false,
+      showDisplay: true,
       view: '',
     };
   }
@@ -50,8 +51,7 @@ class App extends Component {
   refresh(str) {
     if (!str) str = '';
     const obj = {
-      view: str,
-      assignment: [],
+      view: str
     };
     const nQuery = $.get('/nurses');
     const ocbQuery = $.get('/occupiedBeds');
@@ -68,9 +68,9 @@ class App extends Component {
     });
     ebQuery.then(data => {
       obj.emptyBeds = data;
-      console.log(obj);
       this.setState(obj);
     });
+    this.setState(obj);
   }
 
   // all requests flow through the command line on pressing enter
@@ -94,6 +94,7 @@ class App extends Component {
         event.target.value = '';
         this.remove(value);
       } else if (value === 'populate') { // development only
+        event.target.value = '';
         const beds = { beds: this.state.beds };
         $.ajax({
           method: 'POST',
@@ -105,7 +106,7 @@ class App extends Component {
         this.admit(value);
       } else if (value.slice(0, 4) === 'note') {
         event.target.value = '';
-        this.addNote(value.slice(4));
+        this.addNote(value.slice(5));
       } else {
         event.target.value = '';
         this.setState({ view: value });
@@ -116,6 +117,18 @@ class App extends Component {
   // toggle admin glossary
   onClick() {
     this.setState({ glossaryVisible: !this.state.glossaryVisible });
+  }
+
+  showDisplay() {
+    this.setState({ view: 'display' })
+  }
+
+  hide() {
+    this.setState({ view: '' })
+  }
+
+  showAssignments() {
+    this.setState({ view: 'assign'})
   }
 
   addNote(value) {
@@ -138,7 +151,8 @@ class App extends Component {
       url: '/emptyBeds',
       data: { emptyBeds: arr },
     }).then(() => {
-      this.refresh('display');
+      this.assign();
+      this.refresh('assign');
     });
   }
 
@@ -151,7 +165,8 @@ class App extends Component {
       url: '/addBeds',
       data: { addBeds: arr },
     }).then(() => {
-      this.refresh('display');
+      this.assign();
+      this.refresh('assign');
     });
   }
 
@@ -169,11 +184,15 @@ class App extends Component {
   }
 
   select(event) {
-  console.log(event.target.value);
     var passedNurse = (event.target.value);
     passedNurse = (event.target.value).split(',');
     if (passedNurse.length > 1) this.state.onduty = passedNurse;
-    else this.state.onduty.push(event.target.value);
+    else {
+      for (var i = 0; i < this.state.onduty.length; i++) {
+        if (this.state.onduty[i] === event.target.value) return;
+      }
+      this.state.onduty.push(event.target.value);
+    }
     this.setState(this.state);
   }
 
@@ -190,7 +209,7 @@ class App extends Component {
       data: obj,
     });
     post.then(() => {
-      this.refresh();
+      this.refresh('nurses');
     });
   }
 
@@ -232,60 +251,89 @@ class App extends Component {
   }
 
   render() {
-    switch (this.state.view) {
-      case 'nurses':
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-            <Nurses
-              nurses={this.state.nurses}
-              select={this.select}
-            />
-          </div>
-        );
-      case 'assign':
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-            <Assign
-              assignment={this.state.assignment}
-              nurses={this.state.onduty}
-            />
-          </div>
-        );
-      case 'display':
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-            <Display
-              emptyBeds={this.state.emptyBeds}
-              occupied={this.state.occupied}
-            />
-          </div>
-        );
-      default:
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-          </div>
-        );
-    }
+      switch (this.state.view) {
+        case 'nurses':
+          return (
+            <div>
+              <Input
+                enter={this.enter}
+                glossaryVisible={this.state.glossaryVisible}
+                onClick={this.onClick}
+              />
+              <Nurses
+                nurses={this.state.nurses}
+                select={this.select}
+              />
+              <button
+                className="button"
+                onClick={this.showDisplay.bind(this)}>Show empty beds</button>
+              <button
+                className="button1"
+                onClick={this.showAssignments.bind(this)}>Show assignments</button>
+            </div>
+          );
+        case 'assign':
+          return (
+            <div>
+              <Input
+                enter={this.enter}
+                glossaryVisible={this.state.glossaryVisible}
+                onClick={this.onClick}
+              />
+              <Assign
+                assignment={this.state.assignment}
+                nurses={this.state.onduty}
+              />
+              <button
+                className="button"
+                onClick={this.showDisplay.bind(this)}>Show empty beds</button>
+              <button
+                className="button1"
+                onClick={this.hide.bind(this)}>Hide assignments</button>
+              <button
+                className="button2"
+                onClick={this.reset.bind(this)}>Clear assignments</button>
+            </div>
+          );
+        case 'display':
+          return (
+            <div>
+              <Input
+                enter={this.enter}
+                glossaryVisible={this.state.glossaryVisible}
+                onClick={this.onClick}
+              />
+              <Display
+                emptyBeds={this.state.emptyBeds}
+                occupied={this.state.occupied}
+              />
+              <button
+                className="button"
+                onClick={this.hide.bind(this)}>Hide empty beds</button>
+              <button
+                className="button1"
+                onClick={this.showAssignments.bind(this)}>Show assignments</button>
+            </div>
+          );
+        default:
+          return (
+            <div>
+                <div>
+                  <Input
+                    enter={this.enter}
+                    glossaryVisible={this.state.glossaryVisible}
+                    onClick={this.onClick}
+                  />
+                </div>
+                <button
+                  className="button"
+                  onClick={this.showDisplay.bind(this)}>Show empty beds</button>
+                <button
+                  className="button1"
+                  onClick={this.showAssignments.bind(this)}>Show assignments</button>
+            </div>
+          );
+      }
   }
 }
 

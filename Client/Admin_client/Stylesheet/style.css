@@ -118,8 +118,10 @@ input#main{
 }
 
 .container {
+  display: inline-block;
   width: 80%;
   margin: 10px auto;
+  margin-left: 115px;
 }
 
 .nurse {
@@ -155,7 +157,7 @@ input#main{
 .container-left {
   width: 50%;
   display: inline-block;
-  margin-right: auto;
+  margin-left: auto;
   padding: 25px 0px 25px 15px;
   background-color: lightgrey;
   border-radius: 5px;
@@ -164,7 +166,7 @@ input#main{
 .container-right {
   width: 20%;
   display: inline-block;
-  margin-left: 250px;
+  margin-left: 150px;
   padding: 25px 0px 25px 58px;
   background-color: lightgrey;
   border-radius: 5px;
@@ -184,4 +186,25 @@ input#main{
 
 .third {
   width: 30%;
+}
+
+.button {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.button1 {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 165px;
+}
+
+.button2 {
+  display: inline-block;
+  position: absolute;
+  top: 270px;
+  right: 265px;
 }

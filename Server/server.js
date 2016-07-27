@@ -28,6 +28,7 @@ app.get('/emptyBeds', bedCtrl.getEmptyBeds, (req, res) => {
 app.get('/occupiedBeds', bedCtrl.getOccupiedBeds, (req, res) => {
   res.send(req.body.occupied);
 });
+// add.post('/reactnative', bedCtrl.addNative)
 app.post('/note', bedCtrl.addNote);
 app.post('/addBeds', bedCtrl.addBeds);
 app.post('/emptyBeds', bedCtrl.emptyBeds);
@@ -43,8 +44,8 @@ app.post('/getAssignments',
   // }
   );
 app.post('/clear', nurseCtrl.clearAssignments);
-app.get('/getAssignments', 
-	// sessionCtrl.isLoggedIn, 
+app.get('/getAssignments',
+	// sessionCtrl.isLoggedIn,
 	// nurseCtrl.postAssignments
 	(req, res) => {
   	  res.json([{bed:'4', notes: "He's a pirate"},{bed:'5', notes: null},{bed:'6', notes: "Check in every hour"}]);

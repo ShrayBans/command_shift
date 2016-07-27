@@ -25,10 +25,15 @@ function show(req, res) {
 
 // create new nurse doc in Nurses collection -- HIRED! :D
 function add(req, res) {
-  Nurses.create({ first: req.body.first, last: req.body.last }, () => {
-    console.log('RES.BODY in NURSECTRL', req.body)
-    res.send('posted');
-  });
+  Nurses.findOne({ first: req.body.first, last: req.body.last }, (err, nurse) => {
+    if (!nurse) {
+      Nurses.create({ first: req.body.first, last: req.body.last }, () => {
+        res.send('posted');
+      });
+    } else {
+      res.send('This nurse is already in the database!');
+    }
+  })
 }
 
 // remove nurse doc from Nurses collection -- FIRED :(
@@ -78,7 +83,6 @@ function postAssignments(req, res) {
   Nurses.find({ first: req.body.first, last: req.body.last }, 'beds', (err, beds) => {
     if (err) throw err;
     res.send(beds[0].beds);
-    // res.send(beds);
   });
 }
 

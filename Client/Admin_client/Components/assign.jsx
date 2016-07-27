@@ -4,7 +4,6 @@ import Run from './run.jsx';
 export default class Assign extends Component {
 
   render() {
-    console.log(this.props.assignment);
     return (
       <div className="container">
         {this.props.assignment.map((ar, i) => {
