@@ -37,10 +37,15 @@ class NursePage extends Component {
 
 		var nurseArr = Object.keys(this.props.nurseData)
 		var bedData = nurseArr.map((bedNum, i) =>{
-			return <TouchableHighlight key={bedNum} onPress={() => this.navigateNotes(bedNum)}><Text>
-			{bedNum}
-				</Text>
+			return (
+			<TouchableHighlight style={styles.bedButton}
+				key={bedNum} 
+				onPress={() => this.navigateNotes(bedNum)}>
+					<Text style={styles.bedButtonText}>
+					{bedNum}
+					</Text>
 			</TouchableHighlight>
+			)
 		});
 		return (
 			<View style={styles.container}>
@@ -57,7 +62,7 @@ class NursePage extends Component {
 						Your beds are: 
 					</Text>
 				</View>
-				<View style ={styles.bedsView}>
+				<View style ={styles.viewBottom}>
 						{bedData}
 				</View>
 
@@ -94,13 +99,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start'
 	},
 	viewBottom: {
-		flex: 3,
-		alignItems: 'center',
-	},
-	bedsView: {
+		flex: 8,
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		flex: 4,
+		padding: 10
 	},
 	backImage: {
 		height: 25,
@@ -109,6 +111,23 @@ const styles = StyleSheet.create({
 	backButton: {
 		marginTop: 20,
 		marginLeft: 10
+	},
+	bedButton: {
+		height: 30,
+		width: 100,
+		backgroundColor: '#d11010',
+		borderRadius: 15,
+		borderWidth: 2,
+		borderColor: '#721212',
+		margin: 5
+	},
+	bedButtonText: {
+		textAlign: 'center',
+		color: 'white',
+		backgroundColor: 'rgba(0,0,0,0)',
+		fontWeight: '700',
+		fontSize: 18,
+		fontFamily: 'Verdana'
 	}
 });
 
