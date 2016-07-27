@@ -8,9 +8,6 @@ import Glossary from './Components/glossary.jsx';
 import GlossaryClick from './Components/glossaryClick.jsx';
 import style from './Stylesheet/style.css';
 
-// CURRENT MAJOR PROBLEM--DATA IN ASSIGN STATE DOESNT SEEM TO PERSIST. IF PAGE IS REFRESHED, OR IF A BED IS EMPTIED OR OCCUPIED, THIS.STATE.ONDUTY BECOMES EMPTY AND
-// SHOW ASSIGNMENTS RENDERS NOTHING
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -54,8 +51,7 @@ class App extends Component {
   refresh(str) {
     if (!str) str = '';
     const obj = {
-      view: str,
-      assignment: [],
+      view: str
     };
     const nQuery = $.get('/nurses');
     const ocbQuery = $.get('/occupiedBeds');
@@ -72,9 +68,9 @@ class App extends Component {
     });
     ebQuery.then(data => {
       obj.emptyBeds = data;
-      console.log(obj);
       this.setState(obj);
     });
+    this.setState(obj);
   }
 
   // all requests flow through the command line on pressing enter
@@ -153,7 +149,8 @@ class App extends Component {
       url: '/emptyBeds',
       data: { emptyBeds: arr },
     }).then(() => {
-      this.refresh('display');
+      this.assign();
+      this.refresh('assign');
     });
   }
 
@@ -166,7 +163,8 @@ class App extends Component {
       url: '/addBeds',
       data: { addBeds: arr },
     }).then(() => {
-      this.refresh('display');
+      this.assign();
+      this.refresh('assign');
     });
   }
 
@@ -209,7 +207,7 @@ class App extends Component {
       data: obj,
     });
     post.then(() => {
-      this.refresh();
+      this.refresh('nurses');
     });
   }
 
@@ -266,7 +264,7 @@ class App extends Component {
               />
               <button
                 className="button"
-                onClick={this.showDisplay.bind(this)}>Show display</button>
+                onClick={this.showDisplay.bind(this)}>Show empty beds</button>
               <button
                 className="button1"
                 onClick={this.showAssignments.bind(this)}>Show assignments</button>
@@ -286,7 +284,7 @@ class App extends Component {
               />
               <button
                 className="button"
-                onClick={this.showDisplay.bind(this)}>Show display</button>
+                onClick={this.showDisplay.bind(this)}>Show empty beds</button>
               <button
                 className="button1"
                 onClick={this.hide.bind(this)}>Hide assignments</button>
@@ -309,7 +307,7 @@ class App extends Component {
               />
               <button
                 className="button"
-                onClick={this.hide.bind(this)}>Hide display</button>
+                onClick={this.hide.bind(this)}>Hide empty beds</button>
               <button
                 className="button1"
                 onClick={this.showAssignments.bind(this)}>Show assignments</button>
@@ -327,7 +325,7 @@ class App extends Component {
                 </div>
                 <button
                   className="button"
-                  onClick={this.showDisplay.bind(this)}>Show display</button>
+                  onClick={this.showDisplay.bind(this)}>Show empty beds</button>
                 <button
                   className="button1"
                   onClick={this.showAssignments.bind(this)}>Show assignments</button>
