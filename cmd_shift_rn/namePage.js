@@ -37,12 +37,12 @@ class NamePage extends Component {
 		state.nurseData[bedNum].bgColor = '#4cc45c';
 		this.setState(state)
 		console.log(this.state)
-		
+		var that = this;
 		setTimeout(() => {
 		state.nurseData[bedNum].bgColor = '#d11010';
-		this.setState(state)
+		that.setState(state)
 		console.log(state)
-		}, 60000);
+		}, 1000);
 	}
 
 	fetchNurses(){
