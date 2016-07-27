@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Display extends Component {
 // props emptyBeds, occupied
   render() {
-    if (this.props.emptyBeds.length === 0 && this.props.occupied.length > 0) var allAssigned = 'All beds have been assigned!';
+    if (this.props.emptyBeds.length === 0 && this.props.occupied.length > 0) var allAssigned = 'Every bed is full!';
     else var allAssigned = null;
     var census = this.props.occupied.length;
     return (

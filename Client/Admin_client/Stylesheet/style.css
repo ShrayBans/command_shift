@@ -188,16 +188,23 @@ input#main{
   width: 30%;
 }
 
-.button1 {
-  display: inline-block;
-  position: absolute;
-  top: 10px;
-  left: 150px;
-}
-
 .button {
   display: inline-block;
   position: absolute;
   top: 10px;
   left: 10px;
+}
+
+.button1 {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 140px;
+}
+
+.button2 {
+  display: inline-block;
+  position: absolute;
+  top: 270px;
+  right: 265px;
 }

@@ -8,6 +8,9 @@ import Glossary from './Components/glossary.jsx';
 import GlossaryClick from './Components/glossaryClick.jsx';
 import style from './Stylesheet/style.css';
 
+// CURRENT MAJOR PROBLEM--DATA IN ASSIGN STATE DOESNT SEEM TO PERSIST. IF PAGE IS REFRESHED, OR IF A BED IS EMPTIED OR OCCUPIED, THIS.STATE.ONDUTY BECOMES EMPTY AND
+// SHOW ASSIGNMENTS RENDERS NOTHING
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -184,7 +187,12 @@ class App extends Component {
     var passedNurse = (event.target.value);
     passedNurse = (event.target.value).split(',');
     if (passedNurse.length > 1) this.state.onduty = passedNurse;
-    else this.state.onduty.push(event.target.value);
+    else {
+      for (var i = 0; i < this.state.onduty.length; i++) {
+        if (this.state.onduty[i] === event.target.value) return;
+      }
+      this.state.onduty.push(event.target.value);
+    }
     this.setState(this.state);
   }
 
@@ -256,6 +264,12 @@ class App extends Component {
                 nurses={this.state.nurses}
                 select={this.select}
               />
+              <button
+                className="button"
+                onClick={this.showDisplay.bind(this)}>Show display</button>
+              <button
+                className="button1"
+                onClick={this.showAssignments.bind(this)}>Show assignments</button>
             </div>
           );
         case 'assign':
@@ -271,8 +285,14 @@ class App extends Component {
                 nurses={this.state.onduty}
               />
               <button
+                className="button"
+                onClick={this.showDisplay.bind(this)}>Show display</button>
+              <button
                 className="button1"
                 onClick={this.hide.bind(this)}>Hide assignments</button>
+              <button
+                className="button2"
+                onClick={this.reset.bind(this)}>Clear assignments</button>
             </div>
           );
         case 'display':
@@ -290,6 +310,9 @@ class App extends Component {
               <button
                 className="button"
                 onClick={this.hide.bind(this)}>Hide display</button>
+              <button
+                className="button1"
+                onClick={this.showAssignments.bind(this)}>Show assignments</button>
             </div>
           );
         default:
