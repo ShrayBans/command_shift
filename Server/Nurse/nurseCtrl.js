@@ -24,7 +24,9 @@ function add(req, res) {
       Nurses.create({ first: req.body.first, last: req.body.last }, () => {
         res.send('posted');
       });
-    } else res.send('Already in the database!');
+    } else {
+      res.send('This nurse is already in the database!');
+    }
   })
 }
 

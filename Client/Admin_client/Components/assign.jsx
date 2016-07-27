@@ -5,6 +5,7 @@ export default class Assign extends Component {
 
   render() {
     console.log(this.props.assignment);
+    console.log(this.props.nurses);
     return (
       <div className="container">
         {this.props.assignment.map((ar, i) => {
