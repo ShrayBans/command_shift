@@ -17,8 +17,6 @@ function show(req, res) {
 
 // create new nurse doc in Nurses collection -- HIRED! :D
 function add(req, res) {
-  // var capFirst = toUpperCase(req.body.first);
-  // var capLast = toUpperCase(req.body.last);
   Nurses.findOne({ first: req.body.first, last: req.body.last }, (err, nurse) => {
     if (!nurse) {
       Nurses.create({ first: req.body.first, last: req.body.last }, () => {

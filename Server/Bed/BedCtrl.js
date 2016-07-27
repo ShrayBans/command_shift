@@ -87,7 +87,6 @@ function assign(req, res, next) {
   // assign algorithm
   const occupied = [...req.body.occupied];
   const nurses = req.body.onDuty;
-  console.log('dude', nurses);
   const census = occupied.length;
   const assignment = [];
   if (census % nurses.length === 0) {
