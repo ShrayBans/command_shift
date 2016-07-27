@@ -32,8 +32,8 @@ class NursePage extends Component {
 		var names = this.props.nurseName.split(' ');
 		var nurseFirst = names[0];
 		var nurseLast = names[1];
-		nurseFirst[0] = nurseFirst.toUpperCase();
-		nurseLast[0] = nurseLast.toUpperCase();
+		nurseFirst[0] = nurseFirst[0].toUpperCase();
+		nurseLast[0] = nurseLast[0].toUpperCase();
 
 		var nurseArr = Object.keys(this.props.nurseData)
 		var bedData = nurseArr.map((bedNum, i) =>{
@@ -51,7 +51,7 @@ class NursePage extends Component {
 			<View style={styles.container}>
 				<View style ={styles.viewBackButton}>
 					<TouchableHighlight onPress={this.navigateBack.bind(this)} style={styles.backButton}>
-					<Image source={require('./Images/backButton.png')} style={styles.backImage}></Image>
+						<Image source={require('./Images/logout.png')} style={styles.backImage}></Image>
 					</TouchableHighlight>
 				</View>
 				<View style={styles.viewTop}>
@@ -105,8 +105,9 @@ const styles = StyleSheet.create({
 		padding: 10
 	},
 	backImage: {
-		height: 25,
-		width: 25
+		height: 40,
+		width: 60,
+		borderRadius: 10
 	},
 	backButton: {
 		marginTop: 20,
