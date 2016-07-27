@@ -11,10 +11,32 @@ import ResponsiveImage from 'react-native-responsive-image';
 class NursePage extends Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			bgColor: '#d11010'
+		}
+		this.updateColor = this.updateColor.bind(this)
+		this.chooseColor = this.chooseColor.bind(this)
 	}
 
 	navigateBack(){
 		this.props.navigator.pop();
+	}
+
+	updateColor(){
+		this.setState({bgColor: '#4cc45c' })
+		setTimeout(() => this.setState({bgColor: '#d11010' }), 10000)
+	}
+
+	chooseColor(){
+		return {
+		height: 30,
+		width: 100,
+		backgroundColor: this.state.bgColor,
+		borderRadius: 15,
+		borderWidth: 2,
+		borderColor: '#3a0101',
+		margin: 5
+		}
 	}
 
 	navigateNotes(bedNum){
@@ -24,7 +46,8 @@ class NursePage extends Component {
 			passProps: {
 				bedNum: bedNum,
 				notes: this.props.nurseData[bedNum],
-				updateNote: this.props.updateNote
+				updateNote: this.props.updateNote,
+				updateColor: this.updateColor
 			}
 		})
 	}
@@ -39,7 +62,7 @@ class NursePage extends Component {
 		var nurseArr = Object.keys(this.props.nurseData)
 		var bedData = nurseArr.map((bedNum, i) =>{
 			return (
-			<TouchableHighlight style={styles.bedButton}
+			<TouchableHighlight style={this.chooseColor()}
 				key={bedNum} 
 				onPress={() => this.navigateNotes(bedNum)}>
 					<Text style={styles.bedButtonText}>
@@ -121,15 +144,6 @@ const styles = StyleSheet.create({
 	backButton: {
 		marginTop: 20,
 		marginLeft: 10
-	},
-	bedButton: {
-		height: 30,
-		width: 100,
-		backgroundColor: '#d11010',
-		borderRadius: 15,
-		borderWidth: 2,
-		borderColor: '#721212',
-		margin: 5
 	},
 	bedButtonText: {
 		textAlign: 'center',
