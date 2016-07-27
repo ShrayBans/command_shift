@@ -7,47 +7,10 @@ var exportObj = require('./../Server/Nurse/nurseMdl');
 var beds = require('./../Server/Bed/BedMdl');
 var Nurses = exportObj.nurse;
 //utils();
-
+// var config = require('./config.js')
 var nurseCtrl = require('./../Server/Nurse/nurseCtrl');
 var request = require('supertest')
 
-//following 'add' should only be letters
-//no fucking weird characters everywhere
-//gotta have two names
-//discharge has to be existing bed in DB
-//admit has to be exisitng bed
-//remove has to be existing nurse
-
-
-// describe('loading express', function () {
-//   var url = 'http://localhost:3000';
-//   it('responds to /', function testSlash(done) {
-//   request(url)
-//     .get('/')
-//     .expect(200, done);
-//   });
-//   it('404 everything else', function testPath(done) {
-//     request(server)
-//       .get('/foo/bar')
-//       .expect(404, done);
-//   });
-// });
-
-
-	// 		.end(function(err, res) {
-	// 		if (err || !res.ok){
-	// 			console.log('ERRRROOORRR!!!')
-	// 		}
-	// 		else{
-	// 			console.log('this workds great!!!!')
-	// 		}
-	// 			console.log('skipped end'); 
-	// 			res.status.should.equal('bananas')
-				
-	// 		})
-	// 		done();
-	// 	})
-	// })
 
 
 chai.use(chaiHttp); 
@@ -80,7 +43,9 @@ describe('ADMIN PAGE', function() {
 				hello: '*&(*&%&*^%)'
 			};
 			chai.request(url)
+
 				.post('/nurse')
+				.type('form')
 				.send(n)
 				.end(function(err, res) {
 				res.should.not.have.status(200)
@@ -93,10 +58,12 @@ describe('ADMIN PAGE', function() {
 		it('should add nurse through middleware if proper format is used', function(done){
 			var n = {
 				first:'Scott',
-				last:'Millertest'
+				last:'ToAdd'
 			};
+			var nx = JSON.stringify(n);
 			chai.request(url)
 				.post('/nurse')
+				.type('form')
 				.send(n)
 				.end(function(err, res) {
 				res.should.have.status(200)
@@ -110,6 +77,7 @@ describe('ADMIN PAGE', function() {
 			};
 			chai.request(url)
 				.post('/nurse')
+				.type('form')
 				.send(n)
 				.end(function(err, res) {
 				res.should.not.have.status(200)
@@ -120,20 +88,12 @@ describe('ADMIN PAGE', function() {
 		it('should not allow duplicate nurses in database', function(done){
 			var n = {
 				first:'Scott',
-				last:'Millertest'
+				last:'ToAdd'
 			};
 			chai.request(url)
 				.post('/nurse')
+				.type('form')
 				.send(n)
-				.end(function(err, res) { 
-			})
-			var m = {
-				first:'Scott',
-				last:'Millertest'
-			};
-			chai.request(url)
-				.post('/nurse')
-				.send(m)
 				.end(function(err, res) { 
 				res.should.not.have.status(200)	
 				done(); 
@@ -143,19 +103,14 @@ describe('ADMIN PAGE', function() {
 	
 
 	describe('#remove()', function() {
-		it('should remove nurse from database if nurse exists, and format is correct',function(done){
+		it('should remove nurse from database if nurse exists, and format is correct pt 1 - Add bad nurse',function(done){
 			var n = {
 				first:'Scott',
-				last:'Millertest'
+				last:'ToDelete'
 			};
 			chai.request(url)
 				.post('/nurse')
-				.send(n)
-				.end(function(err, res) { 
-			})
-
-			chai.request(url)
-				.delete('/nurse')
+				.type('form')
 				.send(n)
 				.end(function(err, res) {
 				res.should.have.status(200)
@@ -163,17 +118,19 @@ describe('ADMIN PAGE', function() {
 			})
 		})
 
-		it('should throw error if first and last name are not entered', function(done) {
-
+		it('should remove nurse from database if nurse exists, and format is correct pt 2 - Delete bad nurse', function(done) {
+			var m = {
+				first:'Scott',
+				last:'ToDelete'
+			};
 			chai.request(url)
 				.delete('/nurse')
-				.send({})
+				.type('form')
+				.send(m)
 				.end(function(err, res) {
-				res.should.not.have.status(200)
+				res.should.have.status(200)
 				done(); 
 			})
-
-
 		})
 		it('should throw error if nurse does not exist in database', function(done) {
 			var x = {
@@ -182,6 +139,7 @@ describe('ADMIN PAGE', function() {
 			};
 			chai.request(url)
 				.delete('/nurse')
+				.type('form')
 				.send(x)
 				.end(function(err, res) {
 				res.should.not.have.status(200)
@@ -191,35 +149,95 @@ describe('ADMIN PAGE', function() {
 	})
 	describe('#discharge()', function() {
 		it('should allow discharge if input properly formatted', function(done){
+			var o = {
+				emptyBeds: [ '1A' ]
+			};
+	
+			
 			chai.request(url)
 				.post('/emptyBeds')
-				.send({ emptyBeds: ['1A', '2', '4'] })
+				// .set('Content-Type', 'application/json')
+				.type('form')
+				.send(o)
 				.end(function(err, res) {
 				res.should.have.status(200)
 				done(); 
 			})
 		})
-		it('should not allow discharge if input not properly formatted', function(done){
-				var b = {
-					emptyBeds: ['1A']
-				}
+		it('should reject discharge if input not properly formatted', function(done){
+				var b = {90: 2390}
 			chai.request(url)
 				.post('/emptyBeds')
+				.type('form')
 				.send(b)
 				.end(function(err, res) {
 				res.should.have.status(500)
 				done(); 
 			})
 		})
-		it('should throw error if bed does not exist in database')
-		it('should throw error if bed is already unoccupied in database')
-	})
-	describe('#admit()', function() {
-		it('should throw error if bed does not exist in database')
-		it('should throw error if bed is already occupied in database')
-	})
+		xit('should throw error if bed does not exist in database', function(done) {
+			var o = {
+				emptyBeds: [ '1111A' ]
+			};
+
+			chai.request(url)
+			.post('/emptyBeds')
+			.type('form')
+			.send(o)
+			.end(function(err, res) {
+			res.should.not.have.status(200)
+			done(); 
+			})
+		})
+
+		xit('should throw error if bed is already unoccupied in database')
+
 })
 
+	
+	
+	describe('#admit()', function() {
+
+			it('should allow admit bed if input properly formatted', function(done){
+			var o = {
+				addBeds: [ '1A' ]
+			};
+	
+			
+			chai.request(url)
+				.post('/addBeds')
+				// .set('Content-Type', 'application/json')
+				.type('form')
+				.send(o)
+				.end(function(err, res) {
+				res.should.have.status(200)
+				done(); 
+			})
+		
+	})
+
+		it('should throw error if bed is already occupied in database')
+		xit('should throw error if bed does not exist in database', function(done) {
+
+			var o = {
+			addBeds: [ '111111A' ]
+			};
+
+			chai.request(url)
+			.post('/addBeds')
+			.type('form')
+			.send(o)
+			.end(function(err, res) {
+			res.should.not.have.status(200)
+			done(); 
+			})
+
+		})
+
+
+})
+
+})
 
 
 

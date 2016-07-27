@@ -9,6 +9,7 @@ var connector = mongoose.connect('mongodb://localhost/db');
 const nurseSchema = new Schema({
   first: String,
   last: String,
+
   beds: [String],
 });
 

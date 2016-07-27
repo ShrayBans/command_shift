@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon Server/server.js",
-    "test": "mocha test/setup.js test/ui.test.js"
+    "test": "mocha test/setup.js test/*.test.js"
   },
   "author": "s1akr",
   "license": "ISC",

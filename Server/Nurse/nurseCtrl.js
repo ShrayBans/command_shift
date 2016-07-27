@@ -4,15 +4,13 @@ const Nurses = exportObj.nurse;
 
 
 function index(req, res) {
-console.log('inside nurseController************'); 
   Nurses.find({ }, (err, nurses) => {
-    console.log('inside index'); 
+   
     if (!nurses) {
 
       res.sendStatus(404);
     }
     else {
-       console.log('nurses', nurses); 
       res.json(nurses);
     }
   });
@@ -28,7 +26,7 @@ function show(req, res) {
 // create new nurse doc in Nurses collection -- HIRED! :D
 function add(req, res) {
   Nurses.create({ first: req.body.first, last: req.body.last }, () => {
-    console.log('RES.BODY', req.body)
+    console.log('RES.BODY in NURSECTRL', req.body)
     res.send('posted');
   });
 }
