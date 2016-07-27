@@ -28,6 +28,7 @@ app.get('/emptyBeds', bedCtrl.getEmptyBeds, (req, res) => {
 app.get('/occupiedBeds', bedCtrl.getOccupiedBeds, (req, res) => {
   res.send(req.body.occupied);
 });
+// add.post('/reactnative', bedCtrl.addNative)
 app.post('/note', bedCtrl.addNote);
 app.post('/addBeds', bedCtrl.addBeds);
 app.post('/emptyBeds', bedCtrl.emptyBeds);
