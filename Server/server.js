@@ -43,8 +43,8 @@ app.post('/getAssignments',
   // }
   );
 app.post('/clear', nurseCtrl.clearAssignments);
-app.get('/getAssignments', 
-	// sessionCtrl.isLoggedIn, 
+app.get('/getAssignments',
+	// sessionCtrl.isLoggedIn,
 	// nurseCtrl.postAssignments
 	(req, res) => {
   	  res.json([{bed:'4', notes: "He's a pirate"},{bed:'5', notes: null},{bed:'6', notes: "Check in every hour"}]);
