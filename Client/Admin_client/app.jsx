@@ -39,6 +39,7 @@ class App extends Component {
       assignment: [],
       nurses: {},
       glossaryVisible: false,
+      showDisplay: true,
       view: '',
     };
   }
@@ -93,6 +94,7 @@ class App extends Component {
         event.target.value = '';
         this.remove(value);
       } else if (value === 'populate') { // development only
+        event.target.value = '';
         const beds = { beds: this.state.beds };
         $.ajax({
           method: 'POST',
@@ -104,7 +106,7 @@ class App extends Component {
         this.admit(value);
       } else if (value.slice(0, 4) === 'note') {
         event.target.value = '';
-        this.addNote(value.slice(4));
+        this.addNote(value.slice(5));
       } else {
         event.target.value = '';
         this.setState({ view: value });
@@ -115,6 +117,18 @@ class App extends Component {
   // toggle admin glossary
   onClick() {
     this.setState({ glossaryVisible: !this.state.glossaryVisible });
+  }
+
+  showDisplay() {
+    this.setState({ view: 'display' })
+  }
+
+  hide() {
+    this.setState({ view: '' })
+  }
+
+  showAssignments() {
+    this.setState({ view: 'assign'})
   }
 
   addNote(value) {
@@ -167,7 +181,6 @@ class App extends Component {
   }
 
   select(event) {
-  console.log(event.target.value);
     var passedNurse = (event.target.value);
     passedNurse = (event.target.value).split(',');
     if (passedNurse.length > 1) this.state.onduty = passedNurse;
@@ -230,60 +243,74 @@ class App extends Component {
   }
 
   render() {
-    switch (this.state.view) {
-      case 'nurses':
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-            <Nurses
-              nurses={this.state.nurses}
-              select={this.select}
-            />
-          </div>
-        );
-      case 'assign':
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-            <Assign
-              assignment={this.state.assignment}
-              nurses={this.state.onduty}
-            />
-          </div>
-        );
-      case 'display':
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-            <Display
-              emptyBeds={this.state.emptyBeds}
-              occupied={this.state.occupied}
-            />
-          </div>
-        );
-      default:
-        return (
-          <div>
-            <Input
-              enter={this.enter}
-              glossaryVisible={this.state.glossaryVisible}
-              onClick={this.onClick}
-            />
-          </div>
-        );
-    }
+      switch (this.state.view) {
+        case 'nurses':
+          return (
+            <div>
+              <Input
+                enter={this.enter}
+                glossaryVisible={this.state.glossaryVisible}
+                onClick={this.onClick}
+              />
+              <Nurses
+                nurses={this.state.nurses}
+                select={this.select}
+              />
+            </div>
+          );
+        case 'assign':
+          return (
+            <div>
+              <Input
+                enter={this.enter}
+                glossaryVisible={this.state.glossaryVisible}
+                onClick={this.onClick}
+              />
+              <Assign
+                assignment={this.state.assignment}
+                nurses={this.state.onduty}
+              />
+              <button
+                className="button1"
+                onClick={this.hide.bind(this)}>Hide assignments</button>
+            </div>
+          );
+        case 'display':
+          return (
+            <div>
+              <Input
+                enter={this.enter}
+                glossaryVisible={this.state.glossaryVisible}
+                onClick={this.onClick}
+              />
+              <Display
+                emptyBeds={this.state.emptyBeds}
+                occupied={this.state.occupied}
+              />
+              <button
+                className="button"
+                onClick={this.hide.bind(this)}>Hide display</button>
+            </div>
+          );
+        default:
+          return (
+            <div>
+                <div>
+                  <Input
+                    enter={this.enter}
+                    glossaryVisible={this.state.glossaryVisible}
+                    onClick={this.onClick}
+                  />
+                </div>
+                <button
+                  className="button"
+                  onClick={this.showDisplay.bind(this)}>Show display</button>
+                <button
+                  className="button1"
+                  onClick={this.showAssignments.bind(this)}>Show assignments</button>
+            </div>
+          );
+      }
   }
 }
 
