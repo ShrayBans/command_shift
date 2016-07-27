@@ -27,22 +27,22 @@ class NamePage extends Component {
 	}
 
 	updateNote(bedNum, note){
-		var state = this.state;
-		state.nurseData[bedNum].note = note;
-		this.setState(state);
+		var nurseData = this.state.nurseData;
+		nurseData[bedNum].note = note;
+		this.setState({nurseData});
 	}
 
 	updateColor(bedNum){
-		var state = this.state
-		state.nurseData[bedNum].bgColor = '#4cc45c';
-		this.setState(state)
+		var nurseData = this.state.nurseData;
+		nurseData[bedNum].bgColor = '#4cc45c';
+		this.setState({nurseData})
 		console.log(this.state)
-		var that = this;
+
 		setTimeout(() => {
-		state.nurseData[bedNum].bgColor = '#d11010';
-		that.setState(state)
-		console.log(state)
-		}, 1000);
+		nurseData[bedNum].bgColor = '#d11010';
+		this.setState({nurseData})
+		console.log(this.state)
+		}, 5000);
 	}
 
 	fetchNurses(){
