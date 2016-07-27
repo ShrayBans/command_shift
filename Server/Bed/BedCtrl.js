@@ -1,18 +1,6 @@
 "use strict";
 const Beds = require('./bedMdl');
 
-// function changeBed(req,res,next){
-// 	var oldBedNotes;
-// 	Beds.update({ bed: req.body.oldBed }, { $set: { status: false }}, function(err, bed){
-// 		if (err) return handleError(err);
-// 		console.log(bed);
-// 		oldBedNotes = bed.notes;
-// 	});
-// 	Beds.findAndUpdate({bed: req.body.newBed}, {$set { status: true}}, function(err){
-// 		next();
-// 	})
-// }
-
 // one-time instantiating and populating of all hospital beds
 function populate(req, res) {
   const arr = req.body.beds.map(el => {
@@ -34,7 +22,7 @@ function addBeds(req, res) {
 
 function addNote(req, res) {
   const bed = req.body.bed;
-  const note = req.body.note;
+  const note = req.body.notes;
   Beds.update({ bed }, { $addToSet: { notes: note } }, (err, result) => result);
   res.send('Notes Added');
 }
@@ -43,14 +31,14 @@ function addNote(req, res) {
 function emptyBeds(req, res) {
   const bedsToEmpty = req.body.emptyBeds;
   bedsToEmpty.forEach(bed => {
-    Beds.update({ bed }, { $set: { status: false } }, (err, result) => result);
+    Beds.update({ bed }, { $set: { status: false, notes: [] } }, (err, result) => result);
   });
   res.send('Patients removed!');
 }
 
 // query beds DB for all occupied beds, sent to the shift-generating middleware algorithm
 function getOccupiedBeds(req, res, next) {
-  Beds.find({ status: true }, 'bed', (err, beds) => {
+  Beds.find({ status: true }, 'bed notes', (err, beds) => {
     if (err) throw err;
     const arr = beds.map(el => el.bed);
     req.body.occupied = arr;
