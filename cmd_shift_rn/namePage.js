@@ -12,16 +12,55 @@ class NamePage extends Component {
 		constructor(props){
 		super(props);
 		this.state = {
-			text: ''
+			text: '',
+			nurseData: {}
 		};
+		this.fetchNurses = this.fetchNurses.bind(this)
+		this.updateNote = this.updateNote.bind(this);
+
 	}
 
 	onButtonPress(){
-		this.props.navigator.push({
-			id: 'NursePage',
-			passProps: {
-				nurseName: this.state.text
-			}
+		this.fetchNurses();
+	}
+
+	updateNote(bedNum, note){
+		var nurseData = {}
+		var state = this.state;
+		state.nurseData[bedNum] = note;
+		// nurseData[bedNum] = note;
+		this.setState(state);
+	}
+
+	fetchNurses(){
+		var names = this.state.text.split(' ');
+		var nurseFirst = names[0];
+		var nurseLast = names[1];
+		//if nurse.beds === null || undefined, navigate back
+
+
+		fetch('http://localhost:3000/nurses').then((response)=> response.json()).then((dataJson) => {
+				var nurseData = dataJson.filter(function(nurse){
+
+					return nurse.first.toUpperCase() === nurseFirst.toUpperCase() && nurse.last.toUpperCase() === nurseLast.toUpperCase();
+				});
+				if(nurseData[0].beds) {
+					var nurseObj = {};
+					for(var prop of nurseData[0].beds){
+						nurseObj[prop] = ''
+					}
+					this.setState({nurseData: nurseObj});
+	
+
+					this.props.navigator.push({
+						id: 'NursePage',
+						passProps: {
+							nurseData: this.state.nurseData,
+							nurseName: this.state.text,
+							updateNote: this.updateNote
+						}
+					});
+				}
 		});
 	}
 

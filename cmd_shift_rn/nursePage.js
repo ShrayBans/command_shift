@@ -10,35 +10,6 @@ import {
 class NursePage extends Component {
 	constructor(props){
 		super(props);
-		this.state = {
-			nurseData : {}
-		};
-		this.fetchNurses = this.fetchNurses.bind(this);
-	}
-
-	componentDidMount(){
-		this.fetchNurses();
-	}
-
-	fetchNurses(){
-		var names = this.props.nurseName.split(' ');
-		var nurseFirst = names[0];
-		var nurseLast = names[1];
-		//if nurse.beds === null || undefined, navigate back 
-
-		fetch('http://localhost:3000/nurses').then((response)=> response.json()).then((dataJson) => {
-				var nurseData = dataJson.filter(function(nurse){
-
-					return nurse.first.toUpperCase() === nurseFirst.toUpperCase() && nurse.last.toUpperCase() === nurseLast.toUpperCase();
-				});
-				if(nurseData[0].beds) {
-					var nurseObj = {};
-					for(var prop of nurseData[0].beds){
-						nurseObj[prop] = ''
-					}
-					this.setState({nurseData: nurseObj});
-				}
-		});
 	}
 
 	navigateBack(){
@@ -50,7 +21,9 @@ class NursePage extends Component {
 		this.props.navigator.push({
 			id: 'NotesPage',
 			passProps: {
-				notes: this.state[bedNum]
+				bedNum: bedNum,
+				notes: this.props.nurseData[bedNum],
+				updateNote: this.props.updateNote
 			}
 		})
 	}
@@ -62,22 +35,21 @@ class NursePage extends Component {
 		nurseFirst[0] = nurseFirst.toUpperCase();
 		nurseLast[0] = nurseLast.toUpperCase();
 
-		var nurseArr = Object.keys(this.state.nurseData)
-		var bedData = nurseArr.map((item, i) =>{
-			return <TouchableHighlight key={item} onPress={() => this.navigateNotes(item)}><Text>
-			{item}
+		var nurseArr = Object.keys(this.props.nurseData)
+		var bedData = nurseArr.map((bedNum, i) =>{
+			return <TouchableHighlight key={bedNum} onPress={() => this.navigateNotes(bedNum)}><Text>
+			{bedNum}
 				</Text>
 			</TouchableHighlight>
 		});
 		return (
 			<View style={styles.container}>
-				<View style ={styles.viewPlaceholder}>
+				<View style ={styles.viewBackButton}>
 					<TouchableHighlight onPress={this.navigateBack.bind(this)} style={styles.backButton}>
 					<Image source={require('./Images/backButton.png')} style={styles.backImage}></Image>
 					</TouchableHighlight>
 				</View>
-				<View style ={styles.viewBottom}>
-
+				<View style={styles.viewTop}>
 					<Text style={styles.welcome}>
 						Welcome {nurseFirst} {nurseLast}!
 					</Text>
@@ -97,7 +69,6 @@ class NursePage extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
 		backgroundColor: '#F5FCFF',
 	},
 	welcome: {
@@ -113,15 +84,21 @@ const styles = StyleSheet.create({
 	displayNames: {
 		fontSize: 20
 	},
-	viewPlaceholder: {
+	viewBackButton: {
 		flex: 1,
 		alignItems: 'flex-start',
 	},
-	viewBottom: {
+	viewTop: {
 		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'flex-start'
+	},
+	viewBottom: {
+		flex: 3,
 		alignItems: 'center',
 	},
 	bedsView: {
+		justifyContent: 'flex-start',
 		alignItems: 'center',
 		flex: 4,
 	},

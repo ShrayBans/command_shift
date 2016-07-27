@@ -4,19 +4,26 @@ import {
 	Text,
 	View,
 	TouchableHighlight,
-	Image
+	Image,
+	TextInput
 } from 'react-native';
 
 class NotesPage extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
+			text: ''
 		};
 
 	}
 
 	navigateBack(){
+		this.props.updateNote(this.props.bedNum, this.state.text)
 		this.props.navigator.pop();
+	}
+
+	componentDidMount() {
+	 this.setState({text: this.props.notes})
 	}
 
 	render(){
@@ -29,7 +36,12 @@ class NotesPage extends Component {
 					</TouchableHighlight>
 				</View>
 				<View style ={styles.viewBottom}>
-					
+					<TextInput 
+					style={styles.noteBox} 
+					onChangeText={(text) => this.setState({text})}
+					value = {this.state.text}
+					/>
+						
 				</View>
 
 			</View>
@@ -75,6 +87,11 @@ const styles = StyleSheet.create({
 	backButton: {
 		marginTop: 20,
 		marginLeft: 10
+	},
+	noteBox: {
+		height: 300,
+		color: 'white',
+		backgroundColor: 'black'
 	}
 });
 
