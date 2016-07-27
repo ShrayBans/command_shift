@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon Server/server.js",
-    "test": "mocha test/setup.js test/mongo.test.js"
+    "test": "mocha test/setup.js test/ui.test.js"
   },
   "author": "s1akr",
   "license": "ISC",
@@ -34,6 +34,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "css-loader": "^0.23.1",
     "enzyme": "^2.4.1",
     "expect": "^1.20.2",
@@ -45,6 +46,7 @@
     "react-addons-test-utils": "^15.0.0-rc.2",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
+    "supertest": "^1.2.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }
