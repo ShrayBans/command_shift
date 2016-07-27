@@ -35,13 +35,24 @@ class NotesPage extends Component {
 					<Image source={require('./Images/backButton.png')} style={styles.backImage}></Image>
 					</TouchableHighlight>
 				</View>
-				<View style ={styles.viewBottom}>
+				<View style ={styles.viewHeader}>
+					<Text style={styles.header}>Notes</Text>
+				</View>
+
+				<View style ={styles.viewMiddle}>
 					<TextInput 
 					style={styles.noteBox} 
 					onChangeText={(text) => this.setState({text})}
 					value = {this.state.text}
+       	 			multiline
 					/>
-						
+				</View>
+				<View style={styles.viewBottom}>
+				</View>
+				<View style ={styles.viewBottom}>
+					<TouchableHighlight onPress={this.navigateBack.bind(this)} style={styles.checkButton}>
+						<Text style={styles.checkText}>Checked Patient</Text>
+					</TouchableHighlight>
 				</View>
 
 			</View>
@@ -50,35 +61,45 @@ class NotesPage extends Component {
 }
 
 const styles = StyleSheet.create({
+	checkButton: {
+		backgroundColor: '#2fd832',
+		height: 40,
+		width: 240,
+	},
+	checkText: {
+		color: '#11771f',
+		textAlign: 'center',
+		fontWeight: '700',
+		fontSize: 26,
+		marginTop: 5
+	},
 	container: {
 		flex: 1,
 		justifyContent: 'center',
 		backgroundColor: '#F5FCFF',
 	},
-	welcome: {
-		fontSize: 30,
+	header: {
+		fontSize: 36,
 		textAlign: 'center',
 		margin: 10,
-	},
-	instructions: {
-		textAlign: 'center',
-		color: '#333333',
-		marginBottom: 5,
-	},
-	displayNames: {
-		fontSize: 20
+		fontWeight: '700',
+		fontFamily: 'Cochin',
 	},
 	viewPlaceholder: {
-		flex: 1,
 		alignItems: 'flex-start',
+		flex: 1,
 	},
-	viewBottom: {
+	viewHeader: {
+		alignItems: 'center',
+		flex: 1,
+	},
+	viewMiddle: {
 		flex: 5,
 		alignItems: 'center',
 	},
-	bedsView: {
+	viewBottom: {
 		alignItems: 'center',
-		flex: 4,
+		flex: 2
 	},
 	backImage: {
 		height: 25,
@@ -89,10 +110,19 @@ const styles = StyleSheet.create({
 		marginLeft: 10
 	},
 	noteBox: {
-		height: 300,
-		color: 'white',
-		backgroundColor: 'black'
-	}
+		alignItems: 'center',
+		height: 400,
+		color: '#031984',
+		backgroundColor: '#b7e3f4',
+		width: 380,
+		padding: 20,
+		textAlignVertical: 'center',
+		fontSize: 20,
+		fontFamily: 'Helvetica',
+		fontWeight: '500',
+		marginLeft: 17,
+		borderRadius: 10
+	},
 });
 
 module.exports = NotesPage;

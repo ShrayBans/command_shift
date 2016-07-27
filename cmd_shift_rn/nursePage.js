@@ -6,6 +6,7 @@ import {
 	TouchableHighlight,
 	Image
 } from 'react-native';
+import ResponsiveImage from 'react-native-responsive-image';
 
 class NursePage extends Component {
 	constructor(props){
@@ -48,7 +49,7 @@ class NursePage extends Component {
 			)
 		});
 		return (
-			<View style={styles.container}>
+			<ResponsiveImage source={require('./Images/doctor_bg2.jpg')} style={styles.container}>
 				<View style ={styles.viewBackButton}>
 					<TouchableHighlight onPress={this.navigateBack.bind(this)} style={styles.backButton}>
 						<Image source={require('./Images/logout.png')} style={styles.backImage}></Image>
@@ -66,28 +67,35 @@ class NursePage extends Component {
 						{bedData}
 				</View>
 
-			</View>
+			</ResponsiveImage>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
+		flex: 1
 	},
 	welcome: {
-		fontSize: 30,
+		fontSize: 32,
 		textAlign: 'center',
 		margin: 10,
+		fontFamily: 'Cochin',
+		color: '#79ace0',
+		fontWeight: '700',
+		marginLeft: 20
 	},
 	instructions: {
 		textAlign: 'center',
 		color: '#333333',
 		marginBottom: 5,
+		marginLeft: 20
 	},
 	displayNames: {
-		fontSize: 20
+		fontSize: 20,
+		color: '#79ace0',
+		fontWeight: '700',
+		marginLeft: 20
 	},
 	viewBackButton: {
 		flex: 1,
@@ -102,7 +110,8 @@ const styles = StyleSheet.create({
 		flex: 8,
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		padding: 10
+		padding: 10,
+		marginLeft: 20
 	},
 	backImage: {
 		height: 40,
