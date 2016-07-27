@@ -24,12 +24,12 @@ class NotesPage extends Component {
 
 	navigateCheck(){
 		this.props.updateNote(this.props.bedNum, this.state.text)
-		this.props.updateColor();
+		this.props.updateColor(this.props.bedNum);
 		this.props.navigator.pop();
 	}
 
 	componentDidMount() {
-	 this.setState({text: this.props.notes})
+	 this.setState({text: this.props.note})
 	}
 
 	render(){

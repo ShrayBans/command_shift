@@ -17,6 +17,7 @@ class NamePage extends Component {
 		};
 		this.fetchNurses = this.fetchNurses.bind(this)
 		this.updateNote = this.updateNote.bind(this);
+		this.updateColor = this.updateColor.bind(this)
 
 	}
 
@@ -24,25 +25,32 @@ class NamePage extends Component {
 		this.fetchNurses();
 	}
 
-	updateColor(){
-		this.setState({bgColor: '#4cc45c' })
-		setTimeout(() => this.setState({bgColor: '#d11010' }), 10000)
+	updateNote(bedNum, note){
+		var state = this.state;
+		state.nurseData[bedNum][note] = note;
+		this.setState(state);
 	}
 
-	updateNote(bedNum, note){
-		var nurseData = {}
-		var state = this.state;
-		state.nurseData[bedNum] = note;
-		// nurseData[bedNum] = note;
-		this.setState(state);
+	updateColor(bedNum){
+		
+		var state = this.state
+		state.nurseData[bedNum].bgColor = '#4cc45c';
+		this.setState(state)
+		console.log(this.state)
+		
+		setTimeout(() => {
+		state.nurseData[bedNum].bgColor = '#d11010';
+		this.setState(state)
+		console.log('PLEASE CHANGE')
+		console.log(state)
+		}, 5000);
+
 	}
 
 	fetchNurses(){
 		var names = this.state.text.split(' ');
 		var nurseFirst = names[0];
 		var nurseLast = names[1];
-		//if nurse.beds === null || undefined, navigate back
-
 
 		fetch('http://localhost:3000/nurses').then((response)=> response.json()).then((dataJson) => {
 				var nurseData = dataJson.filter(function(nurse){
@@ -52,7 +60,7 @@ class NamePage extends Component {
 				if(nurseData[0].beds) {
 					var nurseObj = {};
 					for(var prop of nurseData[0].beds){
-						nurseObj[prop] = ''
+						nurseObj[prop] = {note:'', bgColor: '#d11010'}
 					}
 					this.setState({nurseData: nurseObj});
 	
@@ -62,7 +70,8 @@ class NamePage extends Component {
 						passProps: {
 							nurseData: this.state.nurseData,
 							nurseName: this.state.text,
-							updateNote: this.updateNote
+							updateNote: this.updateNote,
+							updateColor: this.updateColor
 						}
 					});
 				}

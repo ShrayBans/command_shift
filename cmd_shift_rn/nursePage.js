@@ -12,9 +12,7 @@ class NursePage extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			bgColor: '#d11010'
 		}
-		this.updateColor = this.updateColor.bind(this)
 		this.chooseColor = this.chooseColor.bind(this)
 	}
 
@@ -22,16 +20,12 @@ class NursePage extends Component {
 		this.props.navigator.pop();
 	}
 
-	updateColor(){
-		this.setState({bgColor: '#4cc45c' })
-		setTimeout(() => this.setState({bgColor: '#d11010' }), 10000)
-	}
 
-	chooseColor(){
+	chooseColor(bedNum){
 		return {
 		height: 30,
 		width: 100,
-		backgroundColor: this.state.bgColor,
+		backgroundColor: this.props.nurseData[bedNum].bgColor,
 		borderRadius: 15,
 		borderWidth: 2,
 		borderColor: '#3a0101',
@@ -45,9 +39,9 @@ class NursePage extends Component {
 			id: 'NotesPage',
 			passProps: {
 				bedNum: bedNum,
-				notes: this.props.nurseData[bedNum],
+				note: this.props.nurseData[bedNum].note,
 				updateNote: this.props.updateNote,
-				updateColor: this.updateColor
+				updateColor: this.props.updateColor
 			}
 		})
 	}
@@ -62,7 +56,7 @@ class NursePage extends Component {
 		var nurseArr = Object.keys(this.props.nurseData)
 		var bedData = nurseArr.map((bedNum, i) =>{
 			return (
-			<TouchableHighlight style={this.chooseColor()}
+			<TouchableHighlight style={this.chooseColor(bedNum)}
 				key={bedNum} 
 				onPress={() => this.navigateNotes(bedNum)}>
 					<Text style={styles.bedButtonText}>
