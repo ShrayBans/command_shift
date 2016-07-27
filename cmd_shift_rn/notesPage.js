@@ -19,6 +19,11 @@ class NotesPage extends Component {
 
 	navigateBack(){
 		this.props.updateNote(this.props.bedNum, this.state.text)
+		this.props.navigator.pop();
+	}
+
+	navigateCheck(){
+		this.props.updateNote(this.props.bedNum, this.state.text)
 		this.props.updateColor();
 		this.props.navigator.pop();
 	}
@@ -51,7 +56,7 @@ class NotesPage extends Component {
 				<View style={styles.viewBottom}>
 				</View>
 				<View style ={styles.viewBottom}>
-					<TouchableHighlight onPress={this.navigateBack.bind(this)} style={styles.checkButton}>
+					<TouchableHighlight onPress={this.navigateCheck.bind(this)} style={styles.checkButton}>
 						<Text style={styles.checkText}>Checked Patient</Text>
 					</TouchableHighlight>
 				</View>

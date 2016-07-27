@@ -24,6 +24,11 @@ class NamePage extends Component {
 		this.fetchNurses();
 	}
 
+	updateColor(){
+		this.setState({bgColor: '#4cc45c' })
+		setTimeout(() => this.setState({bgColor: '#d11010' }), 10000)
+	}
+
 	updateNote(bedNum, note){
 		var nurseData = {}
 		var state = this.state;
