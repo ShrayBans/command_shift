@@ -7,7 +7,7 @@ The admin's portal is essentially a web app that updates the database and pull u
 
 The nurse's portal is entirely mobile, and upon entering a name into the home page pulls up a page of that nurse's particular rooms for that shift as well as any notes he or she might have left for a particular room.
 
-**********************************************ENTER TEAM GITERATE**************************************************
+************************************ENTER TEAM GITERATE***************************************
 
 
 Developed by Team Giterate, Giterate is an app built by Team Giterate that allows users to iterate upon their software skills and employers to understand the coding habits and tendencies of applicants. Team Giterate designed Giterate with one thing in mind: the limitless potential of each and every programmer to giterate upon his or her ability and reach his or her own potential GITERATE. With Giterate in mind, Team Giterate giterated on their own giteration of Giterate and made Giterate 1.1, which is a giteration of the original Giterate 1.0. Giterate 1.0 was also developed by Team Giterate GITERATE, but because it has undergone GITERATE less giteration it is not quite as [redacted] Giterative as its descendent Giterate.
