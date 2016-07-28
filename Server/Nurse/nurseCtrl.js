@@ -1,11 +1,11 @@
 const exportObj = require('./nurseMdl');
 
-const Nurses = exportObj.nurse; 
+const Nurses = exportObj.nurse;
 
 
 function index(req, res) {
   Nurses.find({ }, (err, nurses) => {
-   
+
     if (!nurses) {
 
       res.sendStatus(404);
@@ -25,22 +25,31 @@ function show(req, res) {
 
 // create new nurse doc in Nurses collection -- HIRED! :D
 function add(req, res) {
-  Nurses.findOne({ first: req.body.first, last: req.body.last }, (err, nurse) => {
-    if (!nurse) {
-      Nurses.create({ first: req.body.first, last: req.body.last }, () => {
-        res.send('posted');
-      });
-    } else {
-      res.send('This nurse is already in the database!');
-    }
-  })
+  const isValid = (/^[a-z]+$/i);
+  if (isValid.test(req.body.first) && isValid.test(req.body.last)) {
+    Nurses.findOne({ first: req.body.first, last: req.body.last }, (err, nurse) => {
+      if (!nurse) {
+        Nurses.create({ first: req.body.first, last: req.body.last }, () => {
+          res.send('posted');
+        });
+      } else {
+        res.send('This nurse is already in the database!');
+      }
+    })
+  } else { console.log('Sorry, this is not a valid name.') }
 }
 
 // remove nurse doc from Nurses collection -- FIRED :(
 function remove(req, res) {
-  console.log('removing nurse**'); 
-  Nurses.remove({ first: req.body.first, last: req.body.last }, () => {
-    res.send('deleted');
+  Nurses.findOne({ first: req.body.first, last: req.body.last }, (err, nurse) => {
+    if (!nurse) {
+      console.log('This nurse does not exist!');
+      res.send(err);
+    } else {
+      Nurses.remove({ first: req.body.first, last: req.body.last }, () => {
+        res.send('deleted');
+      });
+    }
   });
 }
 

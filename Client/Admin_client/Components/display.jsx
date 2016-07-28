@@ -5,6 +5,7 @@ export default class Display extends Component {
   render() {
     if (this.props.emptyBeds.length === 0 && this.props.occupied.length > 0) var allAssigned = 'Every bed is full!';
     else var allAssigned = null;
+    var emptyBeds = this.props.emptyBeds;
     var census = this.props.occupied.length;
     return (
       <div className="container">
@@ -24,5 +25,3 @@ export default class Display extends Component {
     );
   }
 }
-
-
