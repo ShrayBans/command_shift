@@ -30,7 +30,6 @@ function addNote(req, res) {
 // remove a patient from a bed
 function emptyBeds(req, res) {
   const bedsToEmpty = req.body.emptyBeds;
-  console.log('BEDSTOEMPTY*****', req.body); 
   bedsToEmpty.forEach(bed => {
     Beds.update({ bed }, { $set: { status: false, notes: [] } }, (err, result) => result);
   });

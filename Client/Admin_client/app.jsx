@@ -82,7 +82,7 @@ class App extends Component {
         this.add(value);
       } else if (value.slice(0, 9) === 'discharge') {
         event.target.value = '';
-        console.log('test inside enter func in app.jsx'); 
+        console.log('test inside enter func in app.jsx');
         this.discharge(value);
       } else if (value === 'clear') { // turned off for now
         event.target.value = '';
@@ -145,7 +145,6 @@ class App extends Component {
   discharge(value) {
     const arr = value.toUpperCase().split(' ');
     arr.shift();
-    console.log('ARRAY OF BEDS from app.JSX', arr)
     $.ajax({
       method: 'POST',
       url: '/emptyBeds',
