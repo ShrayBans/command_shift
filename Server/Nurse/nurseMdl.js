@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-var connector = mongoose.connect('mongodb://localhost/db');
 
 // make beds value and object, to add notes
 
